@@ -1,21 +1,28 @@
 # lambda-bin
-[![Build Status](https://travis-ci.org/botbits/lambda-bin.svg?branch=master)](https://travis-ci.org/botbits/lambda-bin)
-[![Coverage Status](https://coveralls.io/repos/github/botbits/lambda-bin/badge.svg?branch=master)](https://coveralls.io/github/botbits/lambda-bin?branch=master)
 [![NPM Version](https://img.shields.io/npm/v/lambda-bin.svg)](https://www.npmjs.com/package/lambda-bin)
+[![Build Status](https://travis-ci.com/botbits/lambda-bin.svg?branch=master)](https://travis-ci.com/botbits/lambda-bin)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/517072359191415cbc9d00e44a73997f)](https://www.codacy.com/app/marcelobern/lambda-bin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=botbits/lambda-bin&amp;utm_campaign=Badge_Grade)
+[![Coverage Status](https://coveralls.io/repos/github/botbits/lambda-bin/badge.svg?branch=master)](https://coveralls.io/github/botbits/lambda-bin?branch=master)
+[![Known Vulnerabilities](https://snyk.io/test/github/botbits/lambda-bin/badge.svg?targetFile=package.json)](https://snyk.io/test/github/botbits/lambda-bin?targetFile=package.json)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbotbits%2Flambda-bin.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbotbits%2Flambda-bin?ref=badge_shield)
 
 > Add non-standard binaries to serverless compute.
 
-This module reduces the footprint of the run-time only part of the [`bin-minify`](https://github.com/botbits/bin-minify#readme) module and adds a few [AWS Lambda](https://aws.amazon.com/lambda/) specific functions.
+## Stable Release
+
+You are reading the documentation for the next release of lambda-bin, which should be 0.1.0. Please see [CHANGELOG](CHANGELOG.md) and make sure to read [UPGRADING](UPGRADING.md) when upgrading from a previous version. The current stable release is [0.0.0](https://github.com/botbits/lambda-bin/tree/v0.0.0).
+
+## Overview
+
+This module reduces the footprint of the *run-time* only part of the [bin-minify](https://www.npmjs.com/package/bin-minify) module and adds a few [AWS Lambda](https://aws.amazon.com/lambda/) specific functions.
 
 Still, this module's core functionality should work well for other serverless providers as well. [Please open an issue](https://github.com/botbits/lambda-bin/issues) if you come across limitations using this module with other serverless providers.
 
-
 ## Install
 
-```
+```shell
 $ npm install --save lambda-bin
 ```
-
 
 ## Usage
 
@@ -46,7 +53,6 @@ myLambdaBin.applyMinPack(MY_LAMBDA_BIN_PATH).then((result) => {
 });
 ```
 
-
 ## API
 
 ### constructor (options)
@@ -56,53 +62,49 @@ Object new LambdaBin( Object )
 
 #### options
 
-Type: `Object`
+-   Type: `Object`
+-   Optional
 
-Optional
-
-The following are supported keys in the `options` `json` object. Any other keys are ignored.
+The following are supported keys in the `options` JSON object. Any other keys are ignored.
 
 ##### targetPath
 
-Type: `string`
-
-Default: `./bin/bin-minify`
+-   Type: `string`
+-   Default: `./bin/bin-minify`
 
 Location of the actual binaries.
 
-**Note**: Typically the binaries under `targetPath` are source controlled (and should be included in the `npm` module or `Lambda` package).
+**Note**: Typically the binaries under `targetPath` are source controlled (and should be included in the npm module or Lambda package).
 
 ##### useSymlinks
 
-Type: `boolean`
+-   Type: `boolean`
 
 Any value passed will be replaced with `false`, which is required for `bin-minify` to work on `AWS Lambda`
 
 ##### minPack
 
-Type: `Object`
+-   Type: `Object`
+-   Default: `{}`
 
-Default: `{}`
+Used to *load* a previously created ***minPack***.
 
-Used to ***load*** a previously created `minPack`.
-
-**Note**: A `minPack` is created using [`bin-minify stagingBin.createMinPack()`](https://www.npmjs.com/package/bin-minify#promise-stagingbincreateminpack-) and saved to a source controlled file (which should be included in the `npm` module or `Lambda` package).
+**Note**: A `minPack` is created using [`bin-minify stagingBin.createMinPack()`](https://www.npmjs.com/package/bin-minify#promise-stagingbincreateminpack-) and saved to a source controlled file (which should be included in the npm module or Lambda package).
 
 ### Promise runtimeBin.applyMinPack (fromBase)
 
 #### fromBase
 
-Type: `string`
-
-Required
+-   Type: `string`
+-   Required
 
 Base path where the original file structure of the binaries will be recreated.
 
 #### returns Promise
 
 Resolved Promise: `{ loaded: true or false }`. `loaded` will be:
-- `true` if the file structure was successfully created.
-- `false` if the `fromBase` path already existed.
+-   `true` if the file structure was successfully created.
+-   `false` if the `fromBase` path already existed.
 
 Rejected Promise: `{ error }`.
 
@@ -112,7 +114,7 @@ Once the original file structure of the binaries is recreated, it is necessary t
 
 #### pathsToAdd
 
-Type: `string` or `Array`
+-   Type: `string` or `Array`
 
 The path(s) for the binaries. Typically these paths are children of `fromBase` and/or `fromBase` itself.
 
@@ -128,18 +130,21 @@ Some binaries rely on environment variables to control their behavior (e.g. `NOD
 
 #### variablesToSet
 
-Type: `Object`
+-   Type: `Object`
 
-Key-values pairs representing the environment variables to add/change, where the `key` is the environment variable name and the `value` its associated value.
+Key-values pairs representing the environment variables to add/change, where the *key* is the environment variable name and the *value* its associated value.
 
 #### shouldOverwrite
 
-Type: `boolean`
+-   Type: `boolean`
 
 If `true`, any existing value will be replaced. If `false` the value provided will be appended to any existing value using ':'.
 
 **Tip**: If it necessary to overwrite and append values, call `setEnv()` twice and change the value of `shouldOverwrite` accordingly.
 
+## AWS Lambda Limits
+
+Please keep these [AWS lambda limits](https://docs.aws.amazon.com/lambda/latest/dg/limits.html) in mind when deploying lambda functions.
 
 ## License
 
