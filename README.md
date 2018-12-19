@@ -8,10 +8,6 @@
 
 > Add non-standard binaries to serverless compute.
 
-## Stable Release
-
-You are reading the documentation for the next release of lambda-bin, which should be 0.1.0. Please see [CHANGELOG](CHANGELOG.md) and make sure to read [UPGRADING](UPGRADING.md) when upgrading from a previous version. The current stable release is [0.0.0](https://github.com/botbits/lambda-bin/tree/v0.0.0).
-
 ## Overview
 
 This module reduces the footprint of the *run-time* only part of the [bin-minify](https://www.npmjs.com/package/bin-minify) module and adds a few [AWS Lambda](https://aws.amazon.com/lambda/) specific functions.
